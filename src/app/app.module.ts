@@ -1,16 +1,28 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material/core";
 import { DATE_FORMATS } from "./config/constants";
 import { MomentDateAdapter } from "@angular/material-moment-adapter";
+import { AuthModule } from "@auth0/auth0-angular";
+import { environment } from "./environments/environment";
+import { AppRoutingModule } from "./app.routing.module";
+import { HttpClientModule } from "@angular/common/http";
 
 @NgModule({
-	declarations: [],
+	declarations: [AppComponent],
 	imports: [
+		AppRoutingModule,
 		BrowserModule,
-		AppRoutingModule
+		HttpClientModule,
+		// Import the module into the application, with configuration
+		AuthModule.forRoot({
+			domain: environment.auth.domain,
+			clientId: environment.auth.clientId,
+			authorizationParams: {
+				redirect_uri: window.location.origin
+			}
+		}),
 	],
 	providers: [
 		{

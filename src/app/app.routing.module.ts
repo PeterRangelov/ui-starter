@@ -1,4 +1,5 @@
-import { Routes } from "@angular/router";
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from "./app.component";
 import { PatientListComponent } from "./patients/patient-list/patient-list.component";
 import { AuthGuard } from "./auth/auth.guard";
@@ -19,3 +20,10 @@ export const routes: Routes = [
 		component: UnauthorizedComponent,
 	},
 ]
+
+@NgModule({
+	imports: [RouterModule.forRoot(routes)],
+	exports: [RouterModule]
+})
+export class AppRoutingModule {
+}

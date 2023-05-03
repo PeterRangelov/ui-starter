@@ -1,18 +1,19 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable, of } from "rxjs";
-import { environment } from "../environments/environment";
+import { AuthService } from "@auth0/auth0-angular";
 
 @Injectable({
 	providedIn: "root"
 })
-export class AuthService {
+export class RtAuthService {
 	authenticated$ = new BehaviorSubject<boolean>(false);
 	displayName$ = new BehaviorSubject<string>('');
 	
 	// displayRole$ = new BehaviorSubject<string>(null);
 	
-	constructor(private http: HttpClient) {
+	constructor(private http: HttpClient, private auth: AuthService) {
+		this.auth.isAuthenticated$.subscribe(auth => this.authenticated$.next(auth))
 		// For now, assume user is logged in if token is present
 		// if (this.getToken()) {
 		// 	this.authenticated$.next(true);
@@ -21,12 +22,8 @@ export class AuthService {
 		
 	}
 	
-	get authenticationURL() {
-		return environment.apiUrl + "public/authentication";
-	}
-	
-	get authorizationURL() {
-		return environment.apiUrl + "api/authorization";
+	login() {
+		this.auth.loginWithPopup();
 	}
 	
 	authorized$(role: string): Observable<boolean> {
@@ -50,9 +47,6 @@ export class AuthService {
 	// 	return this.sStorage.retrieve(StorageKeys.USERROLES)?.includes(role.toString());
 	// }
 	
-	login() {
-	
-	}
 	
 	// login(user: User) {
 	// 	//TODO: the access token in the body will ulitimately be some sort of SAML token from DMDC or EAMS

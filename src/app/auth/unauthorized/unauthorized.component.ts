@@ -3,9 +3,9 @@ import { UntilDestroy } from "@ngneat/until-destroy";
 
 @UntilDestroy()
 @Component({
-	selector: "asbs-unauthorized",
+	selector: "rt-unauthorized",
 	templateUrl: "./unauthorized.component.html",
-	styleUrls: ["unauthroized.component.scss"],
+	styleUrls: ["unauthorized.component.scss"],
 	standalone: true,
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
