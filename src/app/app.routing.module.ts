@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AppComponent } from "./app.component";
 import { PatientListComponent } from "./patients/patient-list/patient-list.component";
 import { AuthGuard } from "./auth/auth.guard";
 import { UnauthorizedComponent } from "./auth/unauthorized/unauthorized.component";
+import { DashboardComponent } from "./dashboard/dashboard.component";
 
 export const routes: Routes = [
 	{
 		path: "",
-		component: AppComponent
+		component: DashboardComponent
 	},
 	{
 		path: "patients",
