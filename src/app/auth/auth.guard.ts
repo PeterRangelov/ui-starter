@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { combineLatestWith, map, Observable, tap } from 'rxjs';
 import { RtAuthService } from "./rt-auth.service";
 import { AuthService } from "@auth0/auth0-angular";
 
@@ -15,20 +15,20 @@ export class AuthGuard implements CanActivate {
 	}
 	
 	canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-		return of(true)
-		// return this.auth.authenticated$;
+		// return of(true)
+		return this.auth0.isAuthenticated$
+			.pipe(
+				tap(console.log),
+				combineLatestWith(this.auth.authorized$('')),
+				tap(([authenticated, authorized]) => {
+						if (!authenticated) {
+							this.auth.login()
+						}
+					}
+				),
+				map(([authenticated, authorized]) => authenticated && authorized)
+			);
 		
-		// return this.auth.authenticated$.pipe(
-		// 	combineLatestWith(this.auth.authorized$(route.data.role)),
-		// 	tap(([authenticated, authorized]) => {
-		// 		if (!authenticated) {
-		// 			this.router.navigateByUrl('login');
-		// 		} else if (authenticated && !authorized) {
-		// 			this.router.navigateByUrl('unauthorized');
-		// 		}
-		// 	}),
-		// 	map(([authenticated, authorized]) => authenticated && authorized)
-		// );
 	}
 	
 }

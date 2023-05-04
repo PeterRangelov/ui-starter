@@ -23,7 +23,7 @@ export class RtAuthService {
 	}
 	
 	login() {
-		this.auth.loginWithPopup();
+		this.auth.loginWithRedirect();
 	}
 	
 	authorized$(role: string): Observable<boolean> {
