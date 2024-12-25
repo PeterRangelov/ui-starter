@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
 import { combineLatestWith, map, Observable, tap } from 'rxjs';
 import { RtAuthService } from "./rt-auth.service";
 import { AuthService } from "@auth0/auth0-angular";
@@ -7,7 +7,7 @@ import { AuthService } from "@auth0/auth0-angular";
 @Injectable({
 	providedIn: 'root'
 })
-export class AuthGuard implements CanActivate {
+export class AuthGuard  {
 	
 	constructor(private auth: RtAuthService,
 							private auth0: AuthService,
