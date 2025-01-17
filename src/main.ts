@@ -1,6 +1,6 @@
-import {enableProdMode, importProvidersFrom} from '@angular/core';
+import {enableProdMode, importProvidersFrom, inject} from '@angular/core';
 import {bootstrapApplication, BrowserModule} from '@angular/platform-browser';
-import {HttpClientModule} from '@angular/common/http';
+import {HttpClientModule, provideHttpClient} from '@angular/common/http';
 import {AuthModule} from '@auth0/auth0-angular';
 import {RouterModule} from '@angular/router';
 import {AppComponent} from './app/app.component';
@@ -9,6 +9,9 @@ import {environment} from './environments/environment';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from "@angular/material/core";
 import {MomentDateAdapter} from "@angular/material-moment-adapter";
 import {DATE_FORMATS} from "./app/config/constants";
+import { provideApollo } from 'apollo-angular';
+import { HttpLink } from 'apollo-angular/http';
+import { InMemoryCache } from '@apollo/client/core';
 
 if (environment.production) {
     enableProdMode();
@@ -37,6 +40,15 @@ bootstrapApplication(AppComponent, {
                     redirect_uri: window.location.origin
                 }
             }),
-        ),
+        ), provideHttpClient(), provideApollo(() => {
+      const httpLink = inject(HttpLink);
+
+      return {
+        link: httpLink.create({
+          uri: '<%= endpoint %>',
+        }),
+        cache: new InMemoryCache(),
+      };
+    }),
     ]
 });
